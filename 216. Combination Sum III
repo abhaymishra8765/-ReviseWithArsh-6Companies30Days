@@ -1,0 +1,35 @@
+//4
+//216. Combination Sum III
+
+class Solution 
+{
+public:
+    void solve(int val, int k, int n, vector<vector<int>>&res, vector<int>ans)
+    {
+         if(val == 0)
+         {
+              if(ans.size() == k && n == 0) 
+              {
+                  reverse(ans.begin(), ans.end());
+                  res.push_back(ans); 
+              }
+              return;
+         }
+
+         solve(val-1, k, n, res, ans);
+         if(n >= val)
+         {
+             ans.push_back(val);
+             solve(val-1, k, n-val, res, ans);
+             ans.pop_back();
+         }
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) 
+    {
+          vector<vector<int>>res;
+          vector<int>ans; 
+          solve(9, k, n, res, ans);
+          return res;
+    }
+};

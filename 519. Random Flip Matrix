@@ -1,0 +1,34 @@
+//519. Random Flip Matrix
+
+class Solution 
+{
+public:
+    int i = 0, j = 0;
+    int a, b;
+    Solution(int m, int n) 
+    {
+         this->a = m;
+         this->b = n;
+    }
+    
+    vector<int> flip() 
+    {
+         int p = i, q = j;
+         if(j+1 < b) j++;
+         else if(i+1 < a)
+         {
+             i++;
+             j = 0;
+         }
+
+         else
+         i = 0, j = 0;
+
+         return {p, q};
+    }
+    
+    void reset() 
+    {
+        
+    }
+};

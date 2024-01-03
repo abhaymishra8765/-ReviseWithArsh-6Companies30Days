@@ -1,0 +1,44 @@
+//17. Letter Combinations of a Phone Number
+
+class Solution 
+{
+public:
+    void solve(int ind, vector<string>digit, vector<string>&res, string&ans)
+    {
+        if(ind == digit.size())
+        {
+            if(ans.size() != 0)res.push_back(ans); 
+            return;
+        }
+
+            string r = digit[ind];
+            for(int j = 0; j < r.size(); j++)
+            {
+                ans.push_back(r[j]);
+                solve(ind+1, digit, res, ans);
+                ans.pop_back();
+            } 
+    }
+    
+    vector<string> letterCombinations(string digits) 
+    {
+        unordered_map<char,string>mp;
+        mp['2'] = "abc";
+        mp['3'] = "def";
+        mp['4'] = "ghi";
+        mp['5'] = "jkl";
+        mp['6'] = "mno";
+        mp['7'] = "pqrs";
+        mp['8'] = "tuv";
+        mp['9'] = "wxyz";
+
+        vector<string>res;
+        string ans;
+        int n = digits.size();
+        vector<string>digit(n);
+        for(int i = 0; i < n; i++) digit[i] = mp[digits[i]];
+        
+        solve(0, digit, res, ans);
+        return res;
+    }
+};

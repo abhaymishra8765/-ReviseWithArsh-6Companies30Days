@@ -1,0 +1,96 @@
+Number following a pattern
+
+class Solution
+{   
+public:
+    string printMinNumberForPattern(string S)
+    {
+         int n = S.size();
+         string ans = "";
+         bool flag = false;
+         int i = 0;
+         int cnt = 0;
+         
+         while(i < n)
+         {
+             if(S[i] == 'I')
+             {
+                 if(flag == true)
+                 {
+                     if(i < n-1)
+                     {
+                       if(S[i+1] == 'D') i++;
+                       else
+                       {
+                         cnt++;
+                         ans += to_string(cnt);
+                         i++;
+                       }
+                     }
+                     
+                     else
+                     {
+                        cnt++;
+                        ans += to_string(cnt);
+                        i++;
+                     } 
+                 } 
+                 
+                 else
+                 {
+                     cnt++;
+                     ans += to_string(cnt);
+                     i++;
+                 } 
+             }
+             
+             else
+             {
+                 flag = true;
+                 int cnt2 = 0;
+                 int cnt3;
+                 for(int j = i; j < n; j++)
+                 {
+                     if(S[j] == 'D') 
+                     {
+                         cnt2++;
+                         if(j == n-1)
+                         {
+                             i = n;
+                             cnt += (cnt2+1);
+                             cnt3 = cnt;
+                             for(int k = 0; k <= cnt2; k++)
+                             { 
+                                 ans = ans + to_string(cnt3);
+                                 cnt3--;
+                             }
+                         }
+                     }
+                     
+                     if(S[j] != 'D')
+                     {
+                         i = j;
+                         cnt += (cnt2+1);
+                         cnt3 = cnt;
+                         for(int k = 0; k <= cnt2; k++)
+                         {
+                             ans = ans + to_string(cnt3);
+                             cnt3--;
+                         }
+                         
+                         cnt2 = 0;
+                         break;
+                     }
+                 }
+             }
+         }
+         
+         if(flag == false)
+         {
+             cnt++;
+             ans = ans + to_string(cnt);
+         }
+         
+         return ans;
+    }
+};

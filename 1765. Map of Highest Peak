@@ -1,0 +1,55 @@
+// 1765. Map of Highest Peak
+
+class Solution 
+{
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) 
+    {
+        int n = isWater.size();
+        int m = isWater[0].size();
+        vector<vector<int>>height(n, vector<int>(m));
+        vector<vector<int>>vis(n, vector<int>(m, 0));
+        int dx[] = {-1, 0, 0, 1};
+        int dy[] = {0, -1, 1, 0}; 
+
+        queue<pair<pair<int,int>,int>>q;
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(isWater[i][j] == 1)
+                {
+                    height[i][j] = 0;
+                    vis[i][j] = 1;
+                    q.push({{i, j}, 0});
+                }
+            }
+        }
+
+        while(!q.empty())
+        {
+            auto it = q.front();
+            q.pop();
+
+            auto cell = it.first;
+            int len = it.second;
+            int row = cell.first;
+            int col = cell.second;
+
+            for(int i = 0; i < 4; i++)
+            {
+                int r = row+dx[i];
+                int c = col+dy[i];
+
+                if(r >= 0 && r < n && c >= 0 && c < m && vis[r][c] == 0)
+                {
+                    vis[r][c] = 1;
+                    q.push({{r,c}, len+1});
+                    height[r][c] = len+1;
+                }
+            }
+        }
+
+        return height;
+    }
+};

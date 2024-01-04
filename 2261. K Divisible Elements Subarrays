@@ -1,0 +1,38 @@
+// 2261. K Divisible Elements Subarrays
+
+#include <bits/stdc++.h>
+class Solution 
+{
+public:
+    int countDistinct(vector<int>& nums, int k, int p) 
+    {
+         int n = nums.size();
+         set<vector<int>>st;
+         int ans = 0;
+         vector<int>res;
+         for(int i = 0; i < n; i++)
+         {
+             for(int j = i; j < n; j++)
+             {
+                 for(int l = i; l <= j; l++) res.push_back(nums[l]); 
+
+                 int cnt = 0;
+                 int m = res.size();
+                 for(int l = 0; l < m; l++)
+                 {
+                     if(res[l] % p == 0) cnt++;
+                 }
+
+                 if(cnt <= k && st.find(res) == st.end())
+                 {
+                     ans++;
+                     st.insert(res);
+                 }
+
+                 res.clear();
+             }
+         }
+
+         return ans;
+    }
+};

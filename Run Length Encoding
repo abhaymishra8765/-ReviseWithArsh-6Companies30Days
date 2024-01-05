@@ -1,0 +1,26 @@
+// Run Length Encoding
+
+string encode(string src)
+{     
+    string ans = "";
+    int n = src.size();
+    int cnt = 0;
+    
+    for(int i = 0; i < n-1; i++)
+    {
+        cnt++;
+        if(src[i] != src[i+1])
+        {
+            ans.push_back(src[i]);
+            ans += to_string(cnt);
+            cnt = 0;
+        }
+    }
+    
+    cnt++;
+    ans.push_back(src[n-1]);
+    ans += to_string(cnt);
+    
+    return ans;
+}     
+ 

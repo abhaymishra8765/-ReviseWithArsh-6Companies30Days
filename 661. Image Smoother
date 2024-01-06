@@ -1,0 +1,38 @@
+// 661. Image Smoother
+
+class Solution 
+{
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) 
+    {
+        int n = img.size();
+        int m = img[0].size();
+        vector<vector<int>>ans(n, vector<int>(m));
+
+        int dx[] = {-1, -1, 0, 1, 1, 1, 0, -1};
+        int dy[] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                int cnt = 1;
+                int res = img[i][j];
+                for(int k = 0; k < 8; k++)
+                {
+                    int r = i+dx[k];
+                    int c = j+dy[k];
+                    if(r >= 0 && r < n && c >= 0 && c < m)
+                    {
+                        cnt++;
+                        res += img[r][c];
+                    }
+                }
+
+                ans[i][j] = (res/cnt);
+            }
+        }
+
+        return ans;
+    }
+};

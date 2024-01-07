@@ -1,0 +1,68 @@
+// 1334. Find the City With the Smallest Number of Neighbors at a Threshold Distance
+
+class Solution 
+{
+public: 
+
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) 
+    {
+        vector<pair<int,int>>adj[n];
+        int m = edges.size();
+        for(int i = 0; i < m; i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int w = edges[i][2];
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+
+        vector<int>ans(n);
+
+        for(int i = 0; i < n; i++)
+        {
+            vector<int>dist(n, 1e9);
+            dist[i] = 0;
+            priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+            pq.push({0, i});
+            while(!pq.empty())
+            {
+                auto it = pq.top();
+                pq.pop();
+                int node = it.second;
+                int path = it.first;
+
+                for(auto j : adj[node])
+                {
+                    if(dist[j.first] > (path+j.second))
+                    {
+                        dist[j.first] = path+j.second;
+                        pq.push({dist[j.first], j.first});
+                    }
+                }
+            }
+
+            int cnt = 0;
+            for(int j = 0; j < n; j++)
+            {
+                if(i == j) continue;
+                if(dist[j] <= distanceThreshold) cnt++;
+            }
+
+            ans[i] = cnt;
+        }
+
+        int mini = n;
+        int res;
+        for(int i = 0; i < n; i++)
+        {
+            if(ans[i] <= mini)
+            {
+                mini = ans[i];
+                res = i;
+            }
+        }
+
+        return res;
+    }
+};

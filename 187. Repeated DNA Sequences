@@ -1,0 +1,25 @@
+// 187. Repeated DNA Sequences
+
+class Solution 
+{
+public:
+    vector<string> findRepeatedDnaSequences(string s) 
+    {
+        vector<string>ans;
+        if(s.size() <= 10) return ans;
+        string res = s.substr(0, 10);
+        unordered_map<string, int>mp;
+        mp[res] = 1;
+        int n = s.size();
+        int j = 0;
+        for(int i = 10; i < n; i++)
+        {
+            j++;
+            res = s.substr(j, 10); 
+            if(mp[res] == 1) ans.push_back(res);
+            mp[res]++;
+        }
+
+        return ans;
+    }
+};

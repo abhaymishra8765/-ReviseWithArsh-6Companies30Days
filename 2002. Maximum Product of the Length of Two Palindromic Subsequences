@@ -1,0 +1,66 @@
+// 2002. Maximum Product of the Length of Two Palindromic Subsequences
+
+class Solution 
+{
+public:
+    int maxProduct(string s) 
+    {
+         int n = s.size();
+         int ans = 1;
+         for(int i = 1; i < (1<<n); i++)
+         {
+             string a = "";
+             string b = "";
+             for(int j = 0; j < n; j++)
+             {
+                 if(i & (1<<j)) a += s[j]; 
+                 else b += s[j];
+             }
+
+             int m = a.size();
+             int dp1[m+1][m+1];
+             for(int j = 0; j <= m; j++)
+             {
+                 dp1[0][j] = 0;
+                 dp1[j][0] = 0;
+             }
+
+             string x = a;
+             reverse(a.begin(), a.end());
+
+             for(int j = 1; j <= m; j++)
+             {
+                 for(int k = 1; k <= m; k++)
+                 {
+                     if(a[j-1] == x[k-1]) dp1[j][k] = 1+dp1[j-1][k-1]; 
+                     else
+                     dp1[j][k] = max(dp1[j-1][k], dp1[j][k-1]);
+                 }
+             }
+
+             int p = b.size();
+             int dp2[p+1][p+1];
+             for(int j = 0; j <= p; j++)
+             {
+                 dp2[0][j] = 0;
+                 dp2[j][0] = 0;
+             }
+
+             string y = b;
+             reverse(b.begin(), b.end());
+
+             for(int j = 1; j <= p; j++)
+             {
+                 for(int k = 1; k <= p; k++)
+                 {
+                     if(b[j-1] == y[k-1]) dp2[j][k] = 1+dp2[j-1][k-1]; 
+                     else
+                     dp2[j][k] = max(dp2[j-1][k], dp2[j][k-1]);
+                 }
+             }
+
+             ans = max(ans, dp1[m][m]*dp2[p][p]);
+         } 
+         return ans;
+    }
+};

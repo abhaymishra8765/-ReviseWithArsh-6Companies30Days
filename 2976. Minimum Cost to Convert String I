@@ -1,0 +1,64 @@
+// 2976. Minimum Cost to Convert String I
+
+class Solution 
+{
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) 
+    {
+        vector<pair<int,int>>adj[26];
+        int n = original.size();
+        for(int i = 0; i < n; i++)
+        {
+            int u = original[i]-'a';
+            int v = changed[i]-'a';
+            adj[u].push_back({v, cost[i]});
+        }
+
+        int m = source.size();
+        vector<vector<int>>dp(26, vector<int>(26, 0));
+        long long ans = 0;
+        for(int i = 0; i < m; i++)
+        {
+            if(source[i] != target[i])
+            {
+                int start = source[i]-'a';
+                int end = target[i]-'a';
+                if(dp[start][end] != 0) ans += dp[start][end];
+                else
+                { 
+                vector<long long>dist(26, 1e15); 
+                
+                dist[start] = 0;
+                priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<pair<long long,int>>>pq;
+                pq.push({0, start});
+                while(!pq.empty())
+                {
+                    auto it = pq.top();
+                    pq.pop();
+                    int node = it.second;
+                    long long path = it.first;
+                    if(node == end)
+                    {
+                        ans += path;
+                        dp[start][end] = path;
+                        break;
+                    }
+
+                    for(auto j : adj[node])
+                    {
+                        if(dist[j.first] > path+j.second)
+                        {
+                            dist[j.first] = path+j.second;
+                            pq.push({dist[j.first], j.first});
+                        }
+                    }
+                }
+                     if(dist[end] == 1e15) return -1;
+                }
+ 
+            }
+        }
+
+        return ans;
+    }
+};

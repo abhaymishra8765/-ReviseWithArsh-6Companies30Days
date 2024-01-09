@@ -1,0 +1,44 @@
+// 638. Shopping Offers
+
+class Solution
+{
+public:
+    int solve(int ind, int n, vector<vector<int>>&special, vector<int>& price, vector<int>& needs)
+    {
+        if(ind == special.size())
+        {
+            int res = 0;
+            for(int i = 0; i < n; i++)res += needs[i]*price[i]; 
+            return res;
+        }
+
+        bool flag = 0;
+        for(int i = 0; i < n; i++)
+        {
+            if(special[ind][i] > needs[i])
+            {
+                flag = 1;
+                break;
+            }
+        }
+
+        int take = 1e9;
+        if(flag == 0)
+        {
+            for(int i = 0; i < n; i++) needs[i] -= special[ind][i]; 
+            take = special[ind][n]+solve(ind, n, special, price, needs);
+            for(int i = 0; i < n; i++) needs[i] += special[ind][i]; 
+        } 
+
+        int not_take = solve(ind+1, n, special, price, needs); 
+        return min(take, not_take);
+        
+    }
+
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special,
+     vector<int>& needs)
+     {
+         int n = price.size();
+         return solve(0, n, special, price, needs);
+     }
+};

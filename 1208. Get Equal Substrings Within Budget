@@ -1,0 +1,33 @@
+// 1208. Get Equal Substrings Within Budget
+
+class Solution 
+{
+public:
+    int equalSubstring(string s, string t, int maxCost) 
+    {
+         int n = s.size();
+         int i = 0; 
+         int j = 0;
+         int ans = 0;
+         int res = 0;
+         while(i < n)
+         {
+             ans += abs(s[i]-t[i]);
+             if(ans > maxCost)
+             {
+                 res = max(res, i-j);
+                 while(ans > maxCost)
+                 {
+                     ans -= abs(s[j]-t[j]);
+                     j++;
+                 }
+             }
+            
+             i++;
+         }
+
+         res = max(res, i-j);
+
+         return res;
+    }
+};

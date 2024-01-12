@@ -1,0 +1,36 @@
+// 825. Friends Of Appropriate Ages
+
+class Solution 
+{
+public:
+    int numFriendRequests(vector<int>& ages) 
+    {
+        sort(ages.begin(), ages.end());
+        int n = ages.size();
+        int ans = 0;
+        unordered_map<int,int>mp;
+        mp[ages[0]]++;
+
+        for(int i = 1; i < n; i++)
+        {
+            mp[ages[i]]++;
+            int find = (ages[i]*0.5)+7;
+            int ind = upper_bound(ages.begin(), ages.end(), find)-ages.begin();  
+            int index = lower_bound(ages.begin(), ages.end(), ages[i])-ages.begin(); 
+
+            if(ind < index) ans += (index-ind);
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            if(ages[i] > 14)
+            {
+                int res = ((mp[ages[i]]) * (mp[ages[i]]-1));
+                ans += res;
+                mp[ages[i]] = 0;
+            } 
+        }
+
+        return ans;
+    }
+};

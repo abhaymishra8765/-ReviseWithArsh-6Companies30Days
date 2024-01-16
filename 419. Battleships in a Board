@@ -1,0 +1,49 @@
+// 419. Battleships in a Board
+
+class Solution 
+{
+public:
+    int countBattleships(vector<vector<char>>& board) 
+    {
+         int n = board.size();
+         int m = board[0].size(); 
+         int dx[] = {-1, 1, 0, 0};
+         int dy[] = {0, 0, -1, 1};
+         int cnt = 0; 
+
+         for(int i = 0; i < n; i++)
+         {
+             for(int j = 0; j < m; j++)
+             {
+                 if(board[i][j] == 'X')
+                 {
+                     cnt++;
+                     board[i][j] = '.';
+                     bool flag = true; 
+                     int row = i;
+                     int col = j;
+                     while(flag)
+                     { 
+                         for(int k = 0; k < 4; k++)
+                         {
+                             int a = row+dx[k];
+                             int b = col+dy[k];
+                             flag = false;
+
+                             if(a >= 0 && a < n && b >= 0 && b < m && board[a][b] == 'X')
+                             {
+                                 board[a][b] = '.'; 
+                                 row = a;
+                                 col = b;
+                                 flag = true;
+                                 break;
+                             }
+                         } 
+                     }
+                 }
+             }
+         }
+
+         return cnt;
+    }
+};

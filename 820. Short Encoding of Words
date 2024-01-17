@@ -1,0 +1,32 @@
+// 820. Short Encoding of Words
+
+class Solution 
+{
+public:
+    static bool cmp(string&a, string&b)
+    {
+        return a.size() > b.size();
+    }
+
+    int minimumLengthEncoding(vector<string>& words) 
+    {
+        int n = words.size();
+        int cnt = 0;
+        unordered_map<string,int>mp; 
+        sort(words.begin(), words.end(), cmp); 
+
+        for(int i = 0; i < n; i++)
+        { 
+            string res = words[i];
+            int m = res.size();
+            if(mp[res] == 0) cnt += (m+1); 
+            for(int j = 0; j < m; j++)
+            {
+                string ans = res.substr(j, m-j);
+                mp[ans] = 1;
+            }
+        }
+
+        return cnt;
+    }
+};

@@ -1,0 +1,14 @@
+// 2745. Construct the Longest New String
+
+class Solution 
+{
+public:
+    int longestString(int x, int y, int z) 
+    {
+        int ans = z;
+        ans += 2 * min(x, y);
+        if(x != y) ans++;
+        ans = ans*2;
+        return ans;
+    }
+};

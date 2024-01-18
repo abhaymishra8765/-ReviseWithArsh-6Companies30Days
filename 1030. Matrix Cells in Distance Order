@@ -1,0 +1,40 @@
+// 1030. Matrix Cells in Distance Order
+
+class Solution 
+{
+public:
+    vector<vector<int>> allCellsDistOrder(int rows, int cols, int rCenter, int cCenter) 
+    {
+        queue<pair<int,int>>q;
+        q.push({rCenter, cCenter});
+        vector<vector<int>>ans;
+        int dx[] = {-1, 1, 0, 0};
+        int dy[] = {0, 0, -1, 1};
+        int vis[rows][cols];
+        memset(vis, 0, sizeof(vis));
+        vis[rCenter][cCenter] = 1;
+
+        while(!q.empty())
+        {
+            auto it = q.front();
+            q.pop();
+            int r = it.first;
+            int c = it.second;
+            ans.push_back({r, c});
+
+            for(int i = 0; i < 4; i++)
+            {
+                int a = r + dx[i];
+                int b = c + dy[i];
+
+                if(a >= 0 && a < rows && b >= 0 && b < cols && !vis[a][b])
+                {
+                    vis[a][b] = 1;
+                    q.push({a,b});
+                }
+            }
+        }
+
+        return ans;
+    }
+};

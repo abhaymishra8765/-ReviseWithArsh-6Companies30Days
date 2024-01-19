@@ -1,0 +1,56 @@
+// 2662. Minimum Cost of a Path With Special Roads
+
+class Solution 
+{
+public:
+    int minimumCost(vector<int>& start, vector<int>& target, vector<vector<int>>& specialRoads) 
+    {
+        map<pair<int,int>, vector<pair<pair<int,int>,int>>>mp;
+        int st = start[0]+start[1];
+        int tar = target[0]+target[1]; 
+        mp[{start[0],start[1]}].push_back({{target[0],target[1]}, tar-st}); 
+
+        for(auto it : specialRoads)
+        {
+            int res = it[0]+it[1];
+            int ans = it[2]+it[3]; 
+            mp[{start[0],start[1]}].push_back({{it[0],it[1]},abs(res-st)});
+            mp[{it[0],it[1]}].push_back({{it[2],it[3]},it[4]});
+            mp[{it[2],it[3]}].push_back({{target[0],target[1]},abs(tar-ans)});
+
+            for(auto idx : specialRoads)
+            {
+                if(idx == it) continue;
+                int begin = idx[0]+idx[1];
+                int cost = abs(idx[0]-it[2]) + abs(idx[1]-it[3]);
+                mp[{it[2],it[3]}].push_back({{idx[0],idx[1]}, cost}); 
+            }
+        }
+
+        priority_queue<pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>>pq;
+        pq.push({0, {start[0],start[1]}});
+        map<pair<int,int>, int>dist;
+        dist[{start[0], start[1]}] = 0;
+        int result = 0;
+
+        while(!pq.empty())
+        {
+            auto it = pq.top();
+            pq.pop();
+            int row = it.second.first;
+            int col = it.second.second;
+            int path = it.first; 
+
+            for(auto i : mp[{row,col}])
+            {
+                if(dist.find({i.first.first, i.first.second}) == dist.end() || dist[{i.first.first, i.first.second}] > path + i.second)
+                {
+                    dist[{i.first.first, i.first.second}] = path+i.second;
+                    pq.push({ path+i.second, {i.first.first, i.first.second}});
+                }
+            }
+        }
+
+        return dist[{target[0],target[1]}];
+    }
+};

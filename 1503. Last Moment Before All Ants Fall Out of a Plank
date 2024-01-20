@@ -1,0 +1,25 @@
+// 1503. Last Moment Before All Ants Fall Out of a Plank
+
+ 
+class Solution 
+{
+public:
+    int getLastMoment(int n, vector<int>& left, vector<int>& right) 
+    {
+         int ans = 0;
+         if(left.size() != 0)
+         {
+             auto maxi = max_element(left.begin(), left.end());
+             ans = *maxi;
+         }
+         
+
+         if(right.size() != 0)
+         {
+             auto mini = min_element(right.begin(), right.end());
+             ans = max(ans, n-*mini);
+         }
+         
+         return ans; 
+    }
+};

@@ -1,0 +1,50 @@
+// 3006. Find Beautiful Indices in the Given Array I
+
+class Solution 
+{
+public:
+    vector<int> beautifulIndices(string s, string a, string b, int k) 
+    {
+        vector<int>check;
+        int n = s.size();
+        int t = b.size();
+        for(int i = 0; i <= (n-t); i++)
+        {
+            string res = s.substr(i, t);
+            if(res == b) check.push_back(i);
+        }
+
+        vector<int>ans;
+        int m = a.size();
+
+        for(int i = 0; i <= (n-m); i++)
+        {
+            string res = s.substr(i, m);
+            if(res == a)
+            {
+                int start = i - k;
+                int end = i + k;
+
+                int low = 0;
+                int high = check.size()-1;
+
+                while(low <= high)
+                {
+                    int mid = low+((high-low)/2);
+                    if(check[mid] >= start && check[mid] <= end)
+                    {
+                        ans.push_back(i);
+                        break;
+                    }
+
+                    else if(check[mid] < start) low = mid+1;
+                    else high = mid-1;
+
+                }
+            }
+            
+        }
+
+        return ans;
+    }
+};

@@ -1,0 +1,36 @@
+// 1969. Minimum Non-Zero Product of the Array Elements
+
+class Solution 
+{
+public:
+    long long solve(long long base, long long exponent, long long md)
+    {
+         long long res = 1;
+         base %= md;
+         while(exponent > 0)
+         {
+             if(exponent & 1) 
+             res = (res*base)%md;
+             
+             base = (base * base) %md;
+             exponent >>= 1;
+         }
+
+         return res;
+    }
+
+    int minNonZeroProduct(int p) 
+    {
+         long long a = pow(2, p);
+         a--;
+         long long b = pow(2, p-1);
+         b--;
+         long long md = 1e9+7;
+
+         long long ans = solve(a-1, b, md);
+         a%=md;
+         ans = (ans*a)%md;
+
+         return ans;
+    }
+};

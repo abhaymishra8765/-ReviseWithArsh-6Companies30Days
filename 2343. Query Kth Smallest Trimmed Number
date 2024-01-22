@@ -1,0 +1,36 @@
+// 2343. Query Kth Smallest Trimmed Number
+
+
+class Solution 
+{
+public: 
+    vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) 
+    {
+           int n = queries.size();
+           int m = nums.size();
+           int t = nums[0].size();
+           vector<int>result;
+           
+           for(int i = 0; i < n; i++)
+           {
+               int trim = queries[i][1];
+               int k = queries[i][0];
+               vector<pair<string,int>>res; 
+               
+               for(int j = 0; j < m; j++)
+               {
+                   string next = nums[j];
+                   string ans = next.substr(t-trim, trim);
+                   res.push_back({ans, j});                      
+               }
+
+               sort(res.begin(), res.end()); 
+               auto it = res[k-1];
+               int ind = it.second;
+               result.push_back(ind);
+               res.clear();
+           }
+
+           return result;
+    }
+};

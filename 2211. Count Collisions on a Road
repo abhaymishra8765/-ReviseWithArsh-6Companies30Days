@@ -1,0 +1,30 @@
+// 2211. Count Collisions on a Road
+
+class Solution 
+{
+public:
+    int countCollisions(string directions) 
+    {
+        int n = directions.size();
+        int i = 0, j = n-1;
+        while(i < n)
+        {
+            if(directions[i] != 'L') break;
+            i++;
+        }
+
+        while(j >= 0)
+        {
+            if(directions[j] != 'R') break;
+            j--;
+        }
+
+        int cnt = 0;
+        for(int a = i; a <= j; a++)
+        {
+            if(directions[a] == 'L' || directions[a] == 'R') cnt++;
+        }
+
+        return cnt;
+    }
+};

@@ -1,0 +1,105 @@
+// 1568. Minimum Number of Days to Disconnect Island
+
+class Solution 
+{
+public:
+    int minDays(vector<vector<int>>& grid) 
+    {   
+           int n = grid.size();
+           int m = grid[0].size();
+           int vis[n][m];
+           memset(vis, 0, sizeof(vis));
+           int cnt = 0;
+           int dx[] = {-1, 1, 0, 0};
+           int dy[] = {0, 0, -1, 1};
+
+           for(int i = 0; i < n; i++)
+           {
+               for(int j = 0; j < m; j++)
+               {
+                   if(grid[i][j] == 1 && !vis[i][j])
+                   {
+                       cnt++;
+                       vis[i][j] = 1;
+                       queue<pair<int,int>>q;
+                       q.push({i, j});
+
+                       while(!q.empty())
+                       {
+                           auto it = q.front();
+                           q.pop();
+                           int row = it.first;
+                           int col = it.second;
+
+                           for(int k = 0; k < 4; k++)
+                           {
+                               int a = row+dx[k];
+                               int b = col+dy[k]; 
+
+                               if(a >= 0 && a < n && b >= 0 && b < m && !vis[a][b] && grid[a][b] == 1)
+                               {
+                                  vis[a][b] = 1;
+                                  q.push({a, b});
+                               } 
+                           }
+                       } 
+                   }
+               }
+           }
+
+           if(cnt >= 2 || cnt == 0) return 0;
+           
+           else
+           {
+              for(int i = 0; i < n; i++)
+              {
+                  for(int j = 0; j < m; j++)
+                  {
+                      memset(vis, 0, sizeof(vis));
+                      if(grid[i][j] == 1)
+                      {
+                          grid[i][j] = 0;
+                          int res = 0;
+                          for(int k = 0; k < n; k++)
+                          {
+                              for(int l = 0; l < m; l++)
+                              {
+                                  if(grid[k][l] == 1 && !vis[k][l])
+                                  {
+                                      res++;
+                                      vis[k][l] = 1;
+                                      queue<pair<int,int>>q;
+                                      q.push({k,l});
+
+                                      while(!q.empty())
+                                      {
+                                          auto it = q.front();
+                                          q.pop();
+                                          int row = it.first;
+                                          int col = it.second;
+                                          for(int p = 0; p < 4; p++)
+                                          {
+                                              int a = row+dx[p];
+                                              int b = col+dy[p]; 
+
+                                              if(a >= 0 && a < n && b >= 0 && b < m && !vis[a][b] && grid[a][b] == 1)
+                                              {
+                                                   vis[a][b] = 1;
+                                                   q.push({a, b});
+                                              } 
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+
+                          if(res >= 2 || res == 0) return 1;
+                          grid[i][j] = 1;
+                      }
+                  }
+              }
+           }
+
+           return 2;
+    }
+};
